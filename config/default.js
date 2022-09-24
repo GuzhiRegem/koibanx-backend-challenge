@@ -7,5 +7,5 @@ module.exports = {
     'port': process.env.DATABASE_PORT,
     'dbname': process.env.DATABASE_DBNAME,
     'address': process.env.DATABASE_HOST + ':' + process.env.DATABASE_PORT
-  },
+  }
 };

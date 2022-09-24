@@ -1,8 +1,51 @@
 const logger = require('../utils/logger');
 const express = require('express');
+const Store = require('../models/store');
+const StoreDecorator = require('../utils/storeDecorator');
 const router = express.Router();
 
-router.route('/stores')
-  .get(function(){logger.info("pending validations")}, function(){logger.info("pending use case")});
+router.route('/stores').get(async (req, res) => {
+  let page = parseInt(req.query.page);
+  let limit = parseInt(req.query.limit);
+  const query = req.query.q ? JSON.parse(req.query.q) : {};
+
+  if (page <= 0 || isNaN(page)) { page = 1; }
+  if (limit < 0 || isNaN(limit)) { limit = 0; }
+
+  const result = await Store.find(query).limit(limit).skip(limit * (page - 1)).exec();
+  const count = await Store.countDocuments(query);
+  const decoratedResult = [];
+  result.map((value) => {
+    const dec = new StoreDecorator(value);
+    return decoratedResult.push(dec);
+  });
+  const out = {
+    data: decoratedResult,
+    page: page,
+    limit: limit,
+    pages: count / limit,
+    total: count
+  };
+  if (!isFinite(out.pages)) { out.pages = 1; }
+  res.send(out);
+});
+
+router.route('/stores').post(async (req, res) => {
+  const data = { ...req.body };
+  const needKeys = ["name", "cuit", "concepts", "currentBalance", "active", "lastSale"];
+  const invKeys = [];
+  needKeys.map((value) => {
+    if (!(value in data)) {
+      return invKeys.push(value);
+    }
+  });
+  if (invKeys.length > 0) {
+    return res.send(`required keys: ${invKeys}`);
+  }
+  Store.create(data, (err, inst) => {
+    if (err) return res.send(err);
+    return res.send(inst);
+  });
+});
 
 module.exports = router;
