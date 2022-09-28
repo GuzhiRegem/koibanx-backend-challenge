@@ -23,10 +23,10 @@ router.route('/stores').get(async (req, res) => {
     data: decoratedResult,
     page: page,
     limit: limit,
-    pages: count / limit,
+    pages: Math.ceil(count / limit),
     total: count
   };
-  if (!isFinite(out.pages)) { out.pages = 1; }
+  if (!isFinite(out.pages) || (out.pages === 0)) { out.pages = 1; }
   res.send(out);
 });
 
