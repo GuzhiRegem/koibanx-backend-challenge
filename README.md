@@ -1,5 +1,4 @@
 # koibanx-backend-challenge
----
 ## Iniciar:
 ```
   > npm i
@@ -9,8 +8,6 @@ la aplicación por defecto corre en el puerto 3000, para modificar el puerto en 
 ```
 PORT={número de puerto deseado}
 ```
----
----
 ## Dependencias:
 Principales:
 - Express
@@ -18,8 +15,6 @@ Principales:
 
 Extras:
 - Nodemon (facilita el desarrollo)
----
----
 ## DataModels:
 
 ### store:
@@ -31,8 +26,6 @@ Extras:
 |username|password|
 |---|---|
 |String|String|
----
----
 ## Endpoints:
 ### **AUTH**
 Los endpoints utilizan _BasicAuth_ como metodo de autenticacion, al iniciar la api se crea un usuario  de muestra para poder utilizar las funcionalidades:
