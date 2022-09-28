@@ -4,6 +4,8 @@ mongoose.Promise = Promise;
 
 const express = require('express');
 const app = express();
+const cors = require('cors');
+app.use(cors());
 const dotenv = require('dotenv');
 dotenv.config();
 const config = require('config');
@@ -35,6 +37,7 @@ app.use('/api', require('./routes/stores'));
 app.use((req, res) => {
   res.send('<h3>Invalid route, available routes:</h3><p><strong>GET</strong> /api/stores</p><p><strong>POST</strong> /api/stores</p>');
 });
+
 
 // Start the server
 app.listen(config.get('port'));
