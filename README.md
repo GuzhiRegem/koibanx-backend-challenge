@@ -4,10 +4,11 @@
   > npm i
   > npm start
 ```
-la aplicación por defecto corre en el puerto 3000, para modificar el puerto en el que se sirve la aplicación, agregar la siguiente línea en el archivo _**.env**_:
-```
-PORT={número de puerto deseado}
-```
+Configuraciones disponibles:
+|file|config|
+|-|-|
+|*config/default.js*| Puerto
+|*.env*| DataBase connection
 ## Dependencias:
 Principales:
 - Express
