@@ -32,15 +32,30 @@ router.route('/stores').get(async (req, res) => {
 
 router.route('/stores').post(async (req, res) => {
   const data = { ...req.body };
-  const needKeys = ["name", "cuit", "concepts", "currentBalance", "active", "lastSale"];
+  const needKeys = {
+    name: String,
+    cuit: String,
+    concepts: Array,
+    currentBalance: Number,
+    active: Boolean,
+    lastSale: String
+  };
   const invKeys = [];
-  needKeys.map((value) => {
+  const typeKeys = [];
+  Object.keys(needKeys).map((value) => {
     if (!(value in data)) {
       return invKeys.push(value);
     }
+    if (typeof data[value] !== typeof needKeys[value]) {
+      return typeKeys.push(value);
+    }
+    return value;
   });
   if (invKeys.length > 0) {
     return res.send(`required keys: ${invKeys}`);
+  }
+  if (typeKeys.length > 0) {
+    return res.send(`invalid type: ${typeKeys}`);
   }
   Store.create(data, (err, inst) => {
     if (err) return res.send(err);
