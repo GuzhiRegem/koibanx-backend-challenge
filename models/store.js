@@ -6,11 +6,7 @@ const StoreSchema = new mongoose.Schema({
   concepts: Array,
   currentBalance: Number,
   active: Boolean,
-  lastSale: Date,
-},{ timestamps: true });
-
-StoreSchema.pre('save', async function (callback) {
-  //completar de ser necesario
-});
+  lastSale: Date
+}, { timestamps: true });
 
 module.exports = mongoose.model('Store', StoreSchema);
